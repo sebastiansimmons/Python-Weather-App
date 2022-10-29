@@ -46,11 +46,21 @@ class WeatherApp(QDialog):
 
         self.button.clicked.connect(self.getForecast)
     
-    def getForecast(self):
-        
-        print(f"Looking up weather at {self.zipInput.text()}")
+    def getForecast(self):    
+        zipcode = self.zipInput.text()
+        print(f"Looking up weather at {zipcode}")
+        print(type(zipcode))
 
-    def zipcode_is_valid(zipcode: str) -> Boolean:
+        if self.zipcode_is_valid(zipcode):
+            print(f"VALID ZIPCODE {zipcode}")
+            coords = ZIPCODE_LIST[zipcode]
+            print(coords)
+            print(coords[0])
+            print(coords[1])
+            #r = requests.get(f'https://api.weather.gov/points/{coords[0]}.{coords[1]}/')
+
+
+    def zipcode_is_valid(self, zipcode: str) -> Boolean:
         '''Checks if an entered string is a valid zipcode'''
         return zipcode in ZIPCODE_LIST
 
