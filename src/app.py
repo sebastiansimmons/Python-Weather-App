@@ -1,8 +1,9 @@
 from xmlrpc.client import Boolean
-import lib
 import requests
 import sys
 from PySide6.QtWidgets import QLineEdit, QPushButton, QApplication, QVBoxLayout, QDialog
+
+from lib import load_2022_census_zipcodes
 
 # Using the weather.gov API
 # https://www.weather.gov/documentation/services-web-api
@@ -19,13 +20,18 @@ from PySide6.QtWidgets import QLineEdit, QPushButton, QApplication, QVBoxLayout,
 # Current weather
 # Maybe some other shit but let's start with that because I'm new to this
 
+# #You can retrieve the metadata for a given latitude/longitude coordinate with the /points endpoint (https://api.weather.gov/points/{lat},{lon}).
+
 
 
 #r = requests.get('https://api.weather.gov/points/45.601815.-122.700798/')
 
 #r = requests.get('https://api.weather.gov/points/39.7456,-97.0892')
 
-ZIPCODE_LIST = lib.load_zip_codes()
+# OLD LIST
+# ZIPCODE_LIST = lib.load_zip_codes() 
+
+ZIPCODE_LIST = load_2022_census_zipcodes()
 
 class WeatherApp(QDialog):
 
@@ -53,11 +59,12 @@ class WeatherApp(QDialog):
 
         if self.zipcode_is_valid(zipcode):
             print(f"VALID ZIPCODE {zipcode}")
-            coords = ZIPCODE_LIST[zipcode]
-            print(coords)
-            print(coords[0])
-            print(coords[1])
-            #r = requests.get(f'https://api.weather.gov/points/{coords[0]}.{coords[1]}/')
+            lat = ZIPCODE_LIST[zipcode]["lat"]
+            lon = ZIPCODE_LIST[zipcode]["long"]
+            print(f"lat: {lat}, long: {lon}")
+
+            # #You can retrieve the metadata for a given latitude/longitude coordinate with the /points endpoint (https://api.weather.gov/points/{lat},{lon})
+            #r = requests.get(f'https://api.weather.gov/points/{lat},{lon}')
 
 
     def zipcode_is_valid(self, zipcode: str) -> Boolean:
