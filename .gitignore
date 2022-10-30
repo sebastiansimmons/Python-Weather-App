@@ -1,4 +1,5 @@
 bin/
+src/test.py
 *.ds_store
 
 # Byte-compiled / optimized / DLL files
